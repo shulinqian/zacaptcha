@@ -1,0 +1,21 @@
+{
+    "name": "shulinqian/zacaptcha",
+    "type": "library",
+    "description": "极验证、图像验证码等",
+    "keywords": ["极验证", "验证码", "thinkphp验证码"],
+    "homepage": "https://github.com/shulinqian/zacaptcha",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "qianqiangqiang",
+            "email": "806115620@qq.com",
+            "homepage": "https://github.com/shulinqian"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-4": {"thinkweb\\zacaptcha\\": "src/"}
+    }
+}
