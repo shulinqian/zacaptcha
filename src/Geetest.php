@@ -16,6 +16,7 @@ class Geetest extends Base {
         if($status){
             $this->setSession();
         }
+        return $rs;
     }
 
     /**
