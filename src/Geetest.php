@@ -6,8 +6,8 @@ class Geetest extends Base {
     protected $sessionKey = 'zacaptchaGeetest';
 
     /**
-    * ªÒ»°—È÷§¬Î
-    */
+     * Ëé∑ÂèñÈ™åËØÅÁ†Å
+     */
     public function getCode($user_id){
         // TODO: Implement getCode() method.
         $sdk = $this->loadSdk();
@@ -20,7 +20,7 @@ class Geetest extends Base {
     }
 
     /**
-     * —È÷§ 1”––ß 0Œﬁ–ß
+     * È™åËØÅ 1ÊúâÊïà 0Êó†Êïà
      * @param $user_id
      * @param $post ['geetest_challenge' => '', 'geetest_validate' => '', 'geetest_seccode' => '']
      * @return int
@@ -38,7 +38,7 @@ class Geetest extends Base {
     protected $sdk;
 
     /**
-     * º”‘ÿsdk
+     * Âä†ËΩΩsdk
      * @return \GeetestLib
      */
     protected function loadSdk(){

@@ -32,11 +32,9 @@ abstract class Base{
         $session = '';
         if($this->session){
             $session = $this->session->get($this->sessionKey);
-            $this->session->set($this->sessionKey, null);
         } else {
             if(isset($_SESSION[$this->sessionKey])){
                 $session = $_SESSION[$this->sessionKey];
-                unset($_SESSION[$this->sessionKey]);
             }
         }
         return $session;

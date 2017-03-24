@@ -20,7 +20,7 @@ trait Traits{
      */
     protected function geetestCheck($user_id){
         $client = $this->getGeetestClient();
-            $post = array();
+        $post = array();
         if(function_exists('request')){
             $post['geetest_challenge'] = request()->post('geetest_challenge');
             $post['geetest_validate'] = request()->post('geetest_validate');
@@ -55,49 +55,52 @@ trait Traits{
     protected function getGeetestHtml($id, $codeUrl, $checkUrl, $callBack, $product="popup"){
         $codeUrl .= strpos($codeUrl, '?') === false ? '?' : '&';
         return <<<EOF
-<script src="http://static.geetest.com/static/tools/gt.js"></script>
 <div id="{$id}"></div>
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
 <script>
-    var handlerPopup{$id} = function (captchaObj) {
-        // 成功的回调
-        captchaObj.onSuccess(function () {
-            var validate = captchaObj.getValidate();
-            $.ajax({
-                url: "{$checkUrl}", // 进行二次验证
-                type: "post",
-                dataType: "json",
-                data: {
-                    type: "pc",
-                    username: $('#username1').val(),
-                    password: $('#password1').val(),
-                    geetest_challenge: validate.geetest_challenge,
-                    geetest_validate: validate.geetest_validate,
-                    geetest_seccode: validate.geetest_seccode
-                },
-                success: function (data) {
-                    //data && data.status === "success" 成功
-                    {$callBack}(data);
-                }
+    function zacatcha($){
+        var handlerPopup{$id} = function (captchaObj) {
+            // 成功的回调
+            captchaObj.onSuccess(function () {
+                var validate = captchaObj.getValidate();
+                $.ajax({
+                    url: "{$checkUrl}", // 进行二次验证
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        type: "pc",
+                        username: $('#username').val(),
+                        password: $('#password').val(),
+                        geetest_challenge: validate.geetest_challenge,
+                        geetest_validate: validate.geetest_validate,
+                        geetest_seccode: validate.geetest_seccode
+                    },
+                    success: function (data) {
+                        //data && data.status === "success" 成功
+                        {$callBack}(data);
+                    }
+                });
             });
+            $("#{$id}-submit").click(function () {
+                captchaObj.show();
+            });
+            captchaObj.appendTo("#{$id}");
+        };
+   
+        $.ajax({
+            url: "{$codeUrl}r=" + (new Date()).getTime(),
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    product: "{$product}", 
+                    offline: !data.success 
+                }, handlerPopup{$id});
+            }
         });
-        $("#{$id}-submit").click(function () {
-            captchaObj.show();
-        });
-        captchaObj.appendTo("#{$id}");
-    };
-    $.ajax({
-        url: "{$codeUrl}r=" + (new Date()).getTime(),
-        type: "get",
-        dataType: "json",
-        success: function (data) {
-            initGeetest({
-                gt: data.gt,
-                challenge: data.challenge,
-                product: "{$product}", 
-                offline: !data.success 
-            }, handlerPopup{$id});
-        }
-    });
+    }
 </script>
 EOF;
 
